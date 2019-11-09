@@ -64,13 +64,15 @@ if __name__ == '__main__':
 
     hidden_layers = 'd2048,d'
     gcn = GCN_Dense_Att(n, edges_set,
-                        word_vectors.shape[1], fc_vectors.shape[1], hidden_layers).cuda()
+                        word_vectors.shape[1], 
+                        fc_vectors.shape[1], hidden_layers).cuda()
 
     print('word vectors:', word_vectors.shape)
     print('fc vectors:', fc_vectors.shape)
     print('hidden layers:', hidden_layers)
 
-    optimizer = torch.optim.Adam(gcn.parameters(), lr=args.lr, weight_decay=args.weight_decay)
+    optimizer = torch.optim.Adam(gcn.parameters(), lr=args.lr, 
+                                 weight_decay=args.weight_decay)
 
     v_train, v_val = map(float, args.trainval.split(','))
     n_trainval = len(fc_vectors)
@@ -96,9 +98,11 @@ if __name__ == '__main__':
 
         gcn.eval()
         output_vectors = gcn(word_vectors)
-        train_loss = mask_l2_loss(output_vectors, fc_vectors, tlist[:n_train]).item()
+        train_loss = mask_l2_loss(output_vectors, fc_vectors, 
+                                  tlist[:n_train]).item()
         if v_val > 0:
-            val_loss = mask_l2_loss(output_vectors, fc_vectors, tlist[n_train:]).item()
+            val_loss = mask_l2_loss(output_vectors, fc_vectors, 
+                                    tlist[n_train:]).item()
             loss = val_loss
         else:
             val_loss = 0
