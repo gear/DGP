@@ -2,3 +2,5 @@ __pycache__/
 *.json
 *.pth
 save/
+*.300d.txt
+datasets/
